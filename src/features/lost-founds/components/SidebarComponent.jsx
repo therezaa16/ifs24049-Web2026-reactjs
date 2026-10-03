@@ -86,7 +86,7 @@ function SidebarComponent({ isSidebarOpen, onCloseMobile }) {
                           className={
                             active
                               ? "text-white"
-                              : "text-slate-500 group-hover:text-slate-700"
+                              : "text-slate-600 group-hover:text-slate-700"
                           }
                         />
                         <span>{item.label}</span>

@@ -143,7 +143,7 @@ function ProfilePage() {
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
           Profil Akun
         </h1>
-        <p className="text-sm text-slate-500 mt-1">
+        <p className="text-sm text-slate-600 mt-1">
           Kelola informasi identitas, foto profil, dan keamanan akun Anda.
         </p>
       </div>
@@ -185,7 +185,7 @@ function ProfilePage() {
 
         <div className="text-center sm:text-left space-y-1">
           <h2 className="text-xl font-bold text-slate-800">{profile.name}</h2>
-          <p className="text-sm text-slate-500">{profile.email}</p>
+          <p className="text-sm text-slate-600">{profile.email}</p>
           <div className="pt-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200/60">
               <IconCheck size={14} /> Terverifikasi
@@ -206,10 +206,10 @@ function ProfilePage() {
 
           <form onSubmit={handleUpdateProfile} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+              <label htmlFor="profile-name-input" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                 Nama Lengkap
               </label>
-              <input
+              <input id="profile-name-input"
                 type="text"
                 data-testid="profile-name-input"
                 value={name}
@@ -220,10 +220,10 @@ function ProfilePage() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+              <label htmlFor="profile-email-input" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                 Alamat Email
               </label>
-              <input
+              <input id="profile-email-input"
                 type="email"
                 data-testid="profile-email-input"
                 value={email}
@@ -256,7 +256,7 @@ function ProfilePage() {
         {/* Form Ganti Password */}
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-5">
           <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100">
-            <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center">
               <IconShieldLock size={18} />
             </div>
             <h3 className="font-bold text-slate-800">Keamanan & Password</h3>
@@ -264,10 +264,10 @@ function ProfilePage() {
 
           <form onSubmit={handleUpdatePassword} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+              <label htmlFor="current-password-input" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                 Kata Sandi Saat Ini
               </label>
-              <input
+              <input id="current-password-input"
                 type="password"
                 data-testid="current-password-input"
                 value={oldPassword}
@@ -279,10 +279,10 @@ function ProfilePage() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+              <label htmlFor="new-password-input" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                 Kata Sandi Baru
               </label>
-              <input
+              <input id="new-password-input"
                 type="password"
                 data-testid="new-password-input"
                 value={newPassword}
@@ -294,10 +294,10 @@ function ProfilePage() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+              <label htmlFor="confirm-password-input" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
                 Ulangi Kata Sandi Baru
               </label>
-              <input
+              <input id="confirm-password-input"
                 type="password"
                 data-testid="confirm-password-input"
                 value={newPasswordConfirmation}

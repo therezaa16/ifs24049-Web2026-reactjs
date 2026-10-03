@@ -5,7 +5,7 @@ function NotFoundPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+    <main className="min-h-screen bg-slate-50 flex items-center justify-center p-4 sm:p-6 lg:p-8">
       <div className="max-w-md w-full text-center">
         {/* Decorative Badge */}
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-indigo-50 text-indigo-600 mb-6 shadow-sm ring-8 ring-indigo-50/50 animate-bounce duration-1000">
@@ -19,7 +19,7 @@ function NotFoundPage() {
         <h2 className="mt-3 text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">
           Halaman Tidak Ditemukan
         </h2>
-        <p className="mt-2 text-sm sm:text-base text-slate-500 leading-relaxed">
+        <p className="mt-2 text-sm sm:text-base text-slate-600 leading-relaxed">
           Maaf, rute atau halaman yang Anda cari tidak tersedia, telah dipindahkan, atau tidak pernah ada.
         </p>
 
@@ -45,7 +45,7 @@ function NotFoundPage() {
           </button>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

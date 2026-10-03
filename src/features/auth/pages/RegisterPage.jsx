@@ -46,15 +46,15 @@ function RegisterPage() {
   return (
     <form onSubmit={onSubmitHandler} className="space-y-4">
       <div>
-        <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+        <label htmlFor="register-name-input" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
           Nama Lengkap
         </label>
         <div className="relative">
           <IconUser
             size={18}
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600"
           />
-          <input
+          <input id="register-name-input"
             type="text"
             data-testid="register-name-input"
             value={name}
@@ -67,15 +67,15 @@ function RegisterPage() {
       </div>
 
       <div>
-        <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+        <label htmlFor="register-email-input" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
           Alamat Email
         </label>
         <div className="relative">
           <IconMail
             size={18}
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600"
           />
-          <input
+          <input id="register-email-input"
             type="email"
             data-testid="register-email-input"
             value={email}
@@ -88,15 +88,15 @@ function RegisterPage() {
       </div>
 
       <div>
-        <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+        <label htmlFor="register-password-input" className="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">
           Kata Sandi
         </label>
         <div className="relative">
           <IconLock
             size={18}
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600"
           />
-          <input
+          <input id="register-password-input"
             type="password"
             data-testid="register-password-input"
             value={password}

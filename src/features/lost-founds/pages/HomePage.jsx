@@ -335,7 +335,7 @@ function HomePage() {
             <div className="relative flex-1 max-w-md">
               <IconSearch
                 size={18}
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500"
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600"
               />
               <input
                 type="text"
@@ -423,7 +423,7 @@ function HomePage() {
               ) : filteredItems.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="px-6 py-12 text-center text-slate-600">
-                    <IconListDetails size={40} className="mx-auto text-slate-400 mb-2" />
+                    <IconListDetails size={40} className="mx-auto text-slate-600 mb-2" />
                     <p className="font-medium">Belum ada laporan yang cocok.</p>
                   </td>
                 </tr>

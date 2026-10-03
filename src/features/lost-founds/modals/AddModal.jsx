@@ -90,7 +90,7 @@ function AddModal({ show, onClose, onSaved }) {
             type="button"
             data-testid="close-add-modal-btn"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            className="p-1.5 rounded-lg text-slate-600 hover:text-slate-600 hover:bg-slate-100 transition-colors"
           >
             <IconX size={18} />
           </button>
@@ -98,10 +98,10 @@ function AddModal({ show, onClose, onSaved }) {
 
         <form onSubmit={handleSave} className="p-6 space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-              Judul Laporan <span className="text-red-500">*</span>
+            <label htmlFor="add-lost-found-title-input" className="block text-sm font-semibold text-slate-700 mb-1.5">
+              Judul Laporan <span className="text-red-600">*</span>
             </label>
-            <input
+            <input id="add-lost-found-title-input"
               type="text"
               data-testid="add-lost-found-title-input"
               value={title}
@@ -132,10 +132,10 @@ function AddModal({ show, onClose, onSaved }) {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-              Deskripsi <span className="text-red-500">*</span>
+            <label htmlFor="add-lost-found-description-input" className="block text-sm font-semibold text-slate-700 mb-1.5">
+              Deskripsi <span className="text-red-600">*</span>
             </label>
-            <textarea
+            <textarea id="add-lost-found-description-input"
               data-testid="add-lost-found-description-input"
               value={description}
               onChange={changeDescription}

@@ -104,7 +104,7 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
             type="button"
             data-testid="close-edit-modal-btn"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            className="p-1.5 rounded-lg text-slate-600 hover:text-slate-600 hover:bg-slate-100 transition-colors"
           >
             <IconX size={18} />
           </button>
@@ -112,10 +112,10 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
 
         <form onSubmit={handleSave} className="p-6 space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-              Judul Laporan <span className="text-red-500">*</span>
+            <label htmlFor="edit-lost-found-title-input" className="block text-sm font-semibold text-slate-700 mb-1.5">
+              Judul Laporan <span className="text-red-600">*</span>
             </label>
-            <input
+            <input id="edit-lost-found-title-input"
               type="text"
               data-testid="edit-lost-found-title-input"
               value={title}
@@ -145,10 +145,10 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+            <label htmlFor="edit-lost-found-status-select" className="block text-sm font-semibold text-slate-700 mb-1.5">
               Status Penyelesaian
             </label>
-            <select
+            <select id="edit-lost-found-status-select"
               data-testid="edit-lost-found-status-select"
               value={isCompleted ? "1" : "0"}
               onChange={(e) => setIsCompleted(e.target.value === "1")}
@@ -160,10 +160,10 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-              Deskripsi <span className="text-red-500">*</span>
+            <label htmlFor="edit-lost-found-description-input" className="block text-sm font-semibold text-slate-700 mb-1.5">
+              Deskripsi <span className="text-red-600">*</span>
             </label>
-            <textarea
+            <textarea id="edit-lost-found-description-input"
               data-testid="edit-lost-found-description-input"
               value={description}
               onChange={(e) => setDescription(e.target.value)}

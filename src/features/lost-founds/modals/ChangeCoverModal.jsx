@@ -91,7 +91,7 @@ function ChangeCoverModal({ show, onClose, onSaved, lostFound }) {
             type="button"
             data-testid="close-cover-modal-btn"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            className="p-1.5 rounded-lg text-slate-600 hover:text-slate-600 hover:bg-slate-100 transition-colors"
           >
             <IconX size={18} />
           </button>
@@ -117,7 +117,7 @@ function ChangeCoverModal({ show, onClose, onSaved, lostFound }) {
                   <p className="text-sm font-semibold text-slate-700">
                     Klik untuk memilih foto
                   </p>
-                  <p className="text-xs text-slate-500 mt-1">PNG, JPG, JPEG (Max. 1MB)</p>
+                  <p className="text-xs text-slate-600 mt-1">PNG, JPG, JPEG (Max. 1MB)</p>
                 </div>
               )}
               <input
