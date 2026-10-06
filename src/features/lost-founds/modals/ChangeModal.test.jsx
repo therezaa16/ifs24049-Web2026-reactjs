@@ -35,10 +35,12 @@ describe("ChangeModal", () => {
   }
 
   it("should not render when show is false", () => {
+    document.body.style.overflow = "scroll";
     const { container } = renderModal({ show: false });
     expect(container.firstChild).toBeNull();
-    expect(document.body.style.overflow).toBe("auto");
+    expect(document.body.style.overflow).toBe("scroll");
     expect(lostFoundAction.asyncSetLostFound).not.toHaveBeenCalled();
+    document.body.style.overflow = "";
   });
 
   it("should fetch detail and populate inputs when shown", () => {
@@ -52,6 +54,15 @@ describe("ChangeModal", () => {
     expect(screen.getByTestId("edit-lost-found-status-select").value).toBe("0");
   });
 
+  it("should restore body scroll when the modal is unmounted", () => {
+    document.body.style.overflow = "scroll";
+    const { unmount } = renderModal();
+    expect(document.body.style.overflow).toBe("hidden");
+    unmount();
+    expect(document.body.style.overflow).toBe("scroll");
+    document.body.style.overflow = "";
+  });
+
   it("should reflect found and completed report data", () => {
     renderModal({}, { lostFound: { ...mockLostFound, status: "found", is_completed: 1 } });
 
@@ -62,6 +73,18 @@ describe("ChangeModal", () => {
   it("should not populate or fetch when the stored report belongs to another id", () => {
     renderModal({}, { lostFound: { ...mockLostFound, id: 99 } });
     expect(screen.getByTestId("edit-lost-found-title-input").value).toBe("");
+    expect(screen.getByTestId("submit-edit-modal-btn")).toBeDisabled();
+  });
+
+  it("should prevent submitting until the selected report has loaded", () => {
+    const errorSpy = vi.spyOn(toolsHelper, "showErrorDialog").mockImplementation(() => {});
+    const changeSpy = vi.spyOn(lostFoundAction, "asyncSetIsLostFoundChange");
+    renderModal({}, { lostFound: { ...mockLostFound, id: 99 } });
+
+    fireEvent.submit(screen.getByTestId("edit-lost-found-title-input").closest("form"));
+
+    expect(errorSpy).toHaveBeenCalledWith("Data laporan belum berhasil dimuat.");
+    expect(changeSpy).not.toHaveBeenCalled();
   });
 
   it("should not fetch when lostFoundId is missing", () => {

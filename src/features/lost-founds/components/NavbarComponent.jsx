@@ -11,8 +11,13 @@ import {
 
 function NavbarComponent({ profile, handleLogout, onToggleSidebar, isSidebarOpen }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [photoLoadFailed, setPhotoLoadFailed] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setPhotoLoadFailed(false);
+  }, [profile?.photo]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -34,6 +39,8 @@ function NavbarComponent({ profile, handleLogout, onToggleSidebar, isSidebarOpen
             onClick={onToggleSidebar}
             className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
             aria-label="Toggle Navigation"
+            aria-expanded={isSidebarOpen}
+            aria-controls="lost-found-sidebar"
           >
             {isSidebarOpen ? <IconX size={20} /> : <IconMenu2 size={20} />}
           </button>
@@ -58,10 +65,11 @@ function NavbarComponent({ profile, handleLogout, onToggleSidebar, isSidebarOpen
             onClick={() => setDropdownOpen((prev) => !prev)}
             className="flex items-center gap-3 p-1.5 pr-3 rounded-full border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
           >
-            {profile?.photo ? (
+            {profile?.photo && !photoLoadFailed ? (
               <img
                 src={profile.photo}
-                alt={profile.name}
+                alt={profile.name || "Foto profil"}
+                onError={() => setPhotoLoadFailed(true)}
                 className="w-8 h-8 rounded-full object-cover border border-slate-200"
               />
             ) : (

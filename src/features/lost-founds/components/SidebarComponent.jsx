@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   IconLayoutDashboard,
@@ -37,6 +38,19 @@ const navItems = [
 function SidebarComponent({ isSidebarOpen, onCloseMobile }) {
   const location = useLocation();
 
+  useEffect(() => {
+    if (!isSidebarOpen) return;
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        onCloseMobile();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isSidebarOpen, onCloseMobile]);
+
   function isItemActive(item) {
     return location.pathname === item.to && location.hash === item.hash;
   }
@@ -55,6 +69,7 @@ function SidebarComponent({ isSidebarOpen, onCloseMobile }) {
       )}
 
       <aside
+        id="lost-found-sidebar"
         aria-label="Navigasi utama"
         className={`fixed top-16 bottom-0 left-0 z-30 w-64 bg-white border-r border-slate-200/80 p-4 transition-transform duration-200 ease-in-out md:translate-x-0 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"

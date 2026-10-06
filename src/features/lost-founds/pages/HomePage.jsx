@@ -27,17 +27,23 @@ import {
 } from "@tabler/icons-react";
 
 const STATUS_LABEL = { lost: "Hilang", found: "Ditemukan" };
+const EMPTY_LOST_FOUNDS = [];
 
 function sumValues(record) {
-  return Object.values(record || {}).reduce((total, value) => total + value, 0);
+  return Object.values(record || {}).reduce(
+    (total, value) => total + (Number.isFinite(Number(value)) ? Number(value) : 0),
+    0
+  );
 }
 
 function StatsPanel({ stats, period, onChangePeriod }) {
-  const labels = Object.keys(stats?.stats_losts || {});
+  const lostStats = stats?.stats_losts || {};
+  const foundStats = stats?.stats_founds || {};
+  const labels = [...new Set([...Object.keys(lostStats), ...Object.keys(foundStats)])];
   const maxValue = Math.max(
     1,
     ...labels.map((label) =>
-      Math.max(stats.stats_losts[label], stats.stats_founds[label])
+      Math.max(Number(lostStats[label]) || 0, Number(foundStats[label]) || 0)
     )
   );
 
@@ -131,19 +137,19 @@ function StatsPanel({ stats, period, onChangePeriod }) {
                     <div
                       className="h-2 rounded-full bg-rose-500"
                       style={{
-                        width: `${(stats.stats_losts[label] / maxValue) * 100}%`,
+                        width: `${((Number(lostStats[label]) || 0) / maxValue) * 100}%`,
                       }}
                     />
-                    <span>{stats.stats_losts[label]} hilang</span>
+                    <span>{Number(lostStats[label]) || 0} hilang</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div
                       className="h-2 rounded-full bg-sky-500"
                       style={{
-                        width: `${(stats.stats_founds[label] / maxValue) * 100}%`,
+                        width: `${((Number(foundStats[label]) || 0) / maxValue) * 100}%`,
                       }}
                     />
-                    <span>{stats.stats_founds[label]} ditemukan</span>
+                    <span>{Number(foundStats[label]) || 0} ditemukan</span>
                   </div>
                 </div>
               </li>
@@ -167,7 +173,7 @@ function HomePage() {
   const navigate = useNavigate();
 
   const profile = useSelector((state) => state.profile);
-  const lostFounds = useSelector((state) => state.lostFounds);
+  const lostFounds = useSelector((state) => state.lostFounds || EMPTY_LOST_FOUNDS);
   const lostFoundStats = useSelector((state) => state.lostFoundStats);
   const isLostFoundDeleted = useSelector((state) => state.isLostFoundDeleted);
 
@@ -230,8 +236,8 @@ function HomePage() {
   const keyword = searchQuery.trim().toLowerCase();
   const filteredItems = lostFounds.filter(
     (item) =>
-      item.title.toLowerCase().includes(keyword) ||
-      item.description.toLowerCase().includes(keyword)
+      (item.title || "").toLowerCase().includes(keyword) ||
+      (item.description || "").toLowerCase().includes(keyword)
   );
 
   const totalCount = lostFounds.length;
@@ -468,7 +474,7 @@ function HomePage() {
                       </span>
                     </td>
                     <td className="px-5 py-4 hidden md:table-cell text-xs text-slate-700">
-                      {item.author.name}
+                      {item.author?.name || "Pengguna tidak diketahui"}
                     </td>
                     <td className="px-5 py-4 hidden lg:table-cell text-xs text-slate-700">
                       {formatDate(item.created_at)}

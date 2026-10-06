@@ -45,6 +45,19 @@ describe("SidebarComponent", () => {
     expect(onCloseMobile).toHaveBeenCalled();
   });
 
+  it("should close the open mobile menu when Escape is pressed", () => {
+    const onCloseMobile = vi.fn();
+    renderWithProviders(
+      <SidebarComponent isSidebarOpen={true} onCloseMobile={onCloseMobile} />
+    );
+
+    fireEvent.keyDown(document, { key: "Enter" });
+    expect(onCloseMobile).not.toHaveBeenCalled();
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(onCloseMobile).toHaveBeenCalledTimes(1);
+  });
+
   it("should call onCloseMobile and activate statistik link when clicked", () => {
     const onCloseMobile = vi.fn();
     renderWithProviders(

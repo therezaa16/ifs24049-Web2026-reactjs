@@ -188,6 +188,43 @@ describe("HomePage", () => {
     expect(screen.getByTestId("stats-summary")).toHaveTextContent("Proses0");
   });
 
+  it("should safely render partial and non-numeric statistics", async () => {
+    renderPage({
+      lostFoundStats: {
+        stats_losts: { "06-2026": "invalid" },
+      },
+      lostFounds: [
+        {
+          ...items[0],
+          title: null,
+          description: null,
+          author: null,
+        },
+      ],
+    });
+
+    expect(screen.getByTestId("stats-list")).toHaveTextContent("06-2026");
+    expect(screen.getByTestId("stats-list")).toHaveTextContent("0 hilang");
+    expect(screen.getByTestId("stats-list")).toHaveTextContent("0 ditemukan");
+    expect(screen.getByTestId("stats-summary")).toHaveTextContent("Hilang0");
+    expect(screen.getByTestId("lost-found-row-1")).toHaveTextContent(
+      "Pengguna tidak diketahui"
+    );
+    fireEvent.change(screen.getByTestId("search-lost-found-input"), {
+      target: { value: "tidak ada" },
+    });
+    await waitFor(() =>
+      expect(screen.getByText("Belum ada laporan yang cocok.")).toBeInTheDocument()
+    );
+  });
+
+  it("should render an empty list when the list state is null", async () => {
+    renderPage({ lostFounds: null });
+    await waitFor(() =>
+      expect(screen.getByText("Belum ada laporan yang cocok.")).toBeInTheDocument()
+    );
+  });
+
   it("should show empty statistics message when stats are unavailable", () => {
     renderPage({ lostFoundStats: null });
     expect(screen.getByTestId("stats-empty")).toBeInTheDocument();

@@ -12,7 +12,11 @@ describe("ChangeCoverModal", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    global.URL.createObjectURL = vi.fn().mockReturnValue("blob:mock-url");
+    global.URL.createObjectURL = vi
+      .fn()
+      .mockReturnValueOnce("blob:mock-url-1")
+      .mockReturnValueOnce("blob:mock-url-2");
+    global.URL.revokeObjectURL = vi.fn();
   });
 
   it("should not render when show is false", () => {
@@ -89,6 +93,56 @@ describe("ChangeCoverModal", () => {
 
     expect(onSaved).toHaveBeenCalled();
     expect(onClose).toHaveBeenCalled();
+  });
+
+  it("should release preview URLs when replaced and when the modal unmounts", () => {
+    const { unmount } = renderWithProviders(
+      <ChangeCoverModal show={true} onClose={vi.fn()} onSaved={onSaved} lostFound={mockLostFound} />
+    );
+    const fileInput = screen.getByTestId("cover-file-input");
+    fireEvent.change(fileInput, {
+      target: { files: [new File(["a"], "first.png", { type: "image/png" })] },
+    });
+    fireEvent.change(fileInput, {
+      target: { files: [new File(["b"], "second.jpg", { type: "image/jpeg" })] },
+    });
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:mock-url-1");
+
+    unmount();
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:mock-url-2");
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(2);
+  });
+
+  it("should clear a previously selected file after an invalid replacement", () => {
+    const errorSpy = vi.spyOn(toolsHelper, "showErrorDialog").mockImplementation(() => {});
+    renderWithProviders(
+      <ChangeCoverModal show={true} onClose={vi.fn()} onSaved={onSaved} lostFound={mockLostFound} />
+    );
+    const fileInput = screen.getByTestId("cover-file-input");
+    fireEvent.change(fileInput, {
+      target: { files: [new File(["a"], "valid.png", { type: "image/png" })] },
+    });
+    fireEvent.change(fileInput, {
+      target: { files: [new File(["b"], "invalid.pdf", { type: "application/pdf" })] },
+    });
+
+    expect(errorSpy).toHaveBeenCalledWith(
+      "Hanya file JPEG, JPG, atau PNG yang diperbolehkan!"
+    );
+    expect(screen.queryByAltText("Preview")).not.toBeInTheDocument();
+    fireEvent.submit(fileInput.closest("form"));
+    expect(errorSpy).toHaveBeenLastCalledWith("Pilih file cover terlebih dahulu!");
+  });
+
+  it("should restore body scroll when the modal is unmounted", () => {
+    document.body.style.overflow = "scroll";
+    const { unmount } = renderWithProviders(
+      <ChangeCoverModal show={true} onClose={vi.fn()} onSaved={onSaved} lostFound={mockLostFound} />
+    );
+    expect(document.body.style.overflow).toBe("hidden");
+    unmount();
+    expect(document.body.style.overflow).toBe("scroll");
+    document.body.style.overflow = "";
   });
 
   it("should handle isLostFoundChangeCover true when isLostFoundChangedCover is false", () => {

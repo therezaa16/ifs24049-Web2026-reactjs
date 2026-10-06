@@ -52,6 +52,33 @@ describe("NavbarComponent", () => {
     expect(screen.getByText("abdullah@delcom.org")).toBeInTheDocument();
   });
 
+  it("should fall back to the avatar when the profile photo fails to load", () => {
+    renderWithProviders(
+      <NavbarComponent
+        profile={mockProfileWithPhoto}
+        handleLogout={vi.fn()}
+        onToggleSidebar={vi.fn()}
+        isSidebarOpen={false}
+      />
+    );
+
+    fireEvent.error(screen.getByAltText("Abdullah"));
+    expect(screen.getByText("A")).toBeInTheDocument();
+  });
+
+  it("should provide an alt fallback when the profile name is missing", () => {
+    renderWithProviders(
+      <NavbarComponent
+        profile={{ photo: "https://example.com/photo.jpg" }}
+        handleLogout={vi.fn()}
+        onToggleSidebar={vi.fn()}
+        isSidebarOpen={false}
+      />
+    );
+
+    expect(screen.getByAltText("Foto profil")).toBeInTheDocument();
+  });
+
   it("should render avatar initial fallback when photo is null", () => {
     renderWithProviders(
       <NavbarComponent

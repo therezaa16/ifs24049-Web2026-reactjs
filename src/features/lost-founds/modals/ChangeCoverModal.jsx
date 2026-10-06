@@ -20,13 +20,26 @@ function ChangeCoverModal({ show, onClose, onSaved, lostFound }) {
 
   useEffect(() => {
     if (show) {
-      document.body.style.overflow = "hidden";
       setFileCover(null);
       setPreviewUrl(null);
-    } else {
-      document.body.style.overflow = "auto";
     }
   }, [show]);
+
+  useEffect(() => {
+    if (!show) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [show]);
+
+  useEffect(() => {
+    if (!previewUrl || typeof URL.revokeObjectURL !== "function") return;
+
+    return () => URL.revokeObjectURL(previewUrl);
+  }, [previewUrl]);
 
   useEffect(() => {
     if (isLostFoundChangeCover) {
@@ -45,11 +58,15 @@ function ChangeCoverModal({ show, onClose, onSaved, lostFound }) {
     if (file) {
       const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
       if (!allowedTypes.includes(file.type)) {
+        setFileCover(null);
+        setPreviewUrl(null);
         showErrorDialog("Hanya file JPEG, JPG, atau PNG yang diperbolehkan!");
         return;
       }
       const MAX_FILE_SIZE = 1024 * 1024; // 1MB sesuai batas server
       if (file.size > MAX_FILE_SIZE) {
+        setFileCover(null);
+        setPreviewUrl(null);
         showErrorDialog("Ukuran file terlalu besar. Maksimal 1MB!");
         return;
       }

@@ -24,6 +24,10 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
 
   useEffect(() => {
     if (lostFoundId && show) {
+      setTitle("");
+      setDescription("");
+      setStatus("lost");
+      setIsCompleted(false);
       dispatch(asyncSetLostFound(lostFoundId));
     }
   }, [lostFoundId, show, dispatch]);
@@ -50,15 +54,26 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
   }, [isLostFoundChange, isLostFoundChanged, dispatch, onClose, onSaved]);
 
   useEffect(() => {
-    if (show) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    if (!show) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
   }, [show]);
+
+  const hasCurrentReport = Boolean(
+    lostFound && lostFound.id === lostFoundId
+  );
 
   function handleSave(e) {
     e.preventDefault();
+    if (!hasCurrentReport) {
+      showErrorDialog("Data laporan belum berhasil dimuat.");
+      return;
+    }
+
     if (!title.trim()) {
       showErrorDialog("Judul tidak boleh kosong");
       return;
@@ -110,6 +125,11 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
         </div>
 
         <form onSubmit={handleSave} className="p-6 space-y-4">
+          {!hasCurrentReport && (
+            <p role="status" className="text-sm text-slate-600">
+              Memuat data laporan...
+            </p>
+          )}
           <div>
             <label htmlFor="edit-lost-found-title-input" className="block text-sm font-semibold text-slate-700 mb-1.5">
               Judul Laporan <span className="text-red-600">*</span>
@@ -119,6 +139,7 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
               data-testid="edit-lost-found-title-input"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              disabled={!hasCurrentReport || loading}
               className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all text-sm"
               required
             />
@@ -136,6 +157,7 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
               data-testid="edit-lost-found-type-select"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
+              disabled={!hasCurrentReport || loading}
               className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all text-sm"
             >
               <option value="lost">Barang Hilang</option>
@@ -151,6 +173,7 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
               data-testid="edit-lost-found-status-select"
               value={isCompleted ? "1" : "0"}
               onChange={(e) => setIsCompleted(e.target.value === "1")}
+              disabled={!hasCurrentReport || loading}
               className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all text-sm"
             >
               <option value="0">Masih Diproses</option>
@@ -166,6 +189,7 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
               data-testid="edit-lost-found-description-input"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              disabled={!hasCurrentReport || loading}
               rows={4}
               className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all text-sm resize-none"
               required
@@ -185,7 +209,7 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
             <button
               type="submit"
               data-testid="submit-edit-modal-btn"
-              disabled={loading}
+              disabled={loading || !hasCurrentReport}
               className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-amber-600 hover:bg-amber-700 active:bg-amber-800 rounded-xl shadow-md shadow-amber-600/25 transition-all disabled:opacity-60"
             >
               {loading ? (

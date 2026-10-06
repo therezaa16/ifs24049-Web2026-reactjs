@@ -90,10 +90,12 @@ describe("AddModal", () => {
   });
 
   it("should restore body scroll when hidden", () => {
+    document.body.style.overflow = "scroll";
     const { rerender } = renderWithProviders(<AddModal show={true} onClose={vi.fn()} onSaved={onSaved} />);
     expect(document.body.style.overflow).toBe("hidden");
     rerender(<AddModal show={false} onClose={vi.fn()} onSaved={onSaved} />);
-    expect(document.body.style.overflow).toBe("auto");
+    expect(document.body.style.overflow).toBe("scroll");
+    document.body.style.overflow = "";
   });
 
   it("should handle isLostFoundAdd true when isLostFoundAdded is false", () => {
