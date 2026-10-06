@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AddModal from "../modals/AddModal";
@@ -167,6 +168,31 @@ function StatsPanel({ stats, period, onChangePeriod }) {
     </section>
   );
 }
+
+StatsPanel.propTypes = {
+  stats: PropTypes.shape({
+    stats_losts: PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    ),
+    stats_losts_completed: PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    ),
+    stats_losts_process: PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    ),
+    stats_founds: PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    ),
+    stats_founds_completed: PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    ),
+    stats_founds_process: PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    ),
+  }),
+  period: PropTypes.oneOf(["daily", "monthly"]).isRequired,
+  onChangePeriod: PropTypes.func.isRequired,
+};
 
 function HomePage() {
   const dispatch = useDispatch();

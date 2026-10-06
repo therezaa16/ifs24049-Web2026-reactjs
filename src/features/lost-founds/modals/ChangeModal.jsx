@@ -126,7 +126,7 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
 
         <form onSubmit={handleSave} className="p-6 space-y-4">
           {!hasCurrentReport && (
-            <p role="status" className="text-sm text-slate-600">
+            <p role="output" className="text-sm text-slate-600">
               Memuat data laporan...
             </p>
           )}

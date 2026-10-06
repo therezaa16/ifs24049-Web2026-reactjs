@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
 import {
   IconSearch,
@@ -139,5 +140,16 @@ function NavbarComponent({ profile, handleLogout, onToggleSidebar, isSidebarOpen
     </header>
   );
 }
+
+NavbarComponent.propTypes = {
+  profile: PropTypes.shape({
+    name: PropTypes.string,
+    email: PropTypes.string,
+    photo: PropTypes.string,
+  }),
+  handleLogout: PropTypes.func.isRequired,
+  onToggleSidebar: PropTypes.func.isRequired,
+  isSidebarOpen: PropTypes.bool.isRequired,
+};
 
 export default NavbarComponent;
