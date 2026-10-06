@@ -78,7 +78,6 @@ function ChangeCoverModal({ show, onClose, onSaved, lostFound }) {
     >
       <div
         className="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all"
-        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/70">
           <div className="flex items-center gap-2.5">
@@ -99,9 +98,9 @@ function ChangeCoverModal({ show, onClose, onSaved, lostFound }) {
 
         <form onSubmit={handleSave} className="p-6 space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
+            <span className="block text-sm font-semibold text-slate-700 mb-2">
               Pilih Foto Barang
-            </label>
+            </span>
             <label className="flex flex-col items-center justify-center w-full h-44 border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-2xl cursor-pointer bg-slate-50/50 hover:bg-indigo-50/20 transition-all overflow-hidden relative">
               {previewUrl ? (
                 <img

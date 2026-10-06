@@ -11,7 +11,6 @@ import {
 import { showErrorDialog } from "../../../helpers/toolsHelper";
 import {
   IconUser,
-  IconLock,
   IconCamera,
   IconCheck,
   IconLoader2,
