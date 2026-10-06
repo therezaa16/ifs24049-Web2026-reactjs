@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 import {
   IconLayoutDashboard,
@@ -127,5 +128,10 @@ function SidebarComponent({ isSidebarOpen, onCloseMobile }) {
     </>
   );
 }
+
+SidebarComponent.propTypes = {
+  isSidebarOpen: PropTypes.bool.isRequired,
+  onCloseMobile: PropTypes.func.isRequired,
+};
 
 export default SidebarComponent;

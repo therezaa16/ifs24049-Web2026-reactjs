@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { showErrorDialog } from "../../../helpers/toolsHelper";
 import {
@@ -230,5 +231,12 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
     </div>
   );
 }
+
+ChangeModal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSaved: PropTypes.func.isRequired,
+  lostFoundId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+};
 
 export default ChangeModal;

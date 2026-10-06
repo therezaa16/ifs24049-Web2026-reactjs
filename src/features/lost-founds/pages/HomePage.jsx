@@ -423,7 +423,7 @@ function HomePage() {
                   onChange={(e) => setOnlyMine(e.target.checked)}
                   className="rounded border-slate-400"
                 />
-                Laporan saya
+                {" "}Laporan saya
               </label>
             </div>
           </div>
@@ -509,12 +509,12 @@ function HomePage() {
                       {item.is_completed ? (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-                          Selesai
+                          {" "}Selesai
                         </span>
                       ) : (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
                           <span className="w-1.5 h-1.5 rounded-full bg-amber-600" />
-                          Proses
+                          {" "}Proses
                         </span>
                       )}
                     </td>

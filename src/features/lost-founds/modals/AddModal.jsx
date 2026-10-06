@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import useInput from "../../../hooks/useInput";
 import { showErrorDialog } from "../../../helpers/toolsHelper";
@@ -181,5 +182,11 @@ function AddModal({ show, onClose, onSaved }) {
     </div>
   );
 }
+
+AddModal.propTypes = {
+  show: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSaved: PropTypes.func.isRequired,
+};
 
 export default AddModal;
