@@ -126,9 +126,9 @@ function ChangeModal({ show, onClose, onSaved, lostFoundId }) {
 
         <form onSubmit={handleSave} className="p-6 space-y-4">
           {!hasCurrentReport && (
-            <p role="output" className="text-sm text-slate-600">
+            <output className="text-sm text-slate-600">
               Memuat data laporan...
-            </p>
+            </output>
           )}
           <div>
             <label htmlFor="edit-lost-found-title-input" className="block text-sm font-semibold text-slate-700 mb-1.5">
